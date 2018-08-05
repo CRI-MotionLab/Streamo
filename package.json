@@ -1,0 +1,21 @@
+{
+  "name": "org.crimotionlab.streamo",
+  "version": "0.0.1",
+  "displayName": "Streamo",
+  "cordova": {
+    "platforms": [
+      "ios",
+      "android"
+    ],
+    "plugins": {
+      "cordova-plugin-whitelist": {},
+      "cordova-plugin-osc": {}
+    }
+  },
+  "dependencies": {
+    "cordova-android": "^7.0.0",
+    "cordova-ios": "^4.5.5",
+    "cordova-plugin-osc": "^1.0.2",
+    "cordova-plugin-whitelist": "1"
+  }
+}
