@@ -5,6 +5,9 @@ import store from './store';
 
 Vue.use(VueRouter);
 
+// entry point found here :
+// https://www.raymondcamden.com/2017/12/06/quick-example-of-apache-cordova-and-vuejs
+
 const main = new Vue({
   el: '#main',
   store,
