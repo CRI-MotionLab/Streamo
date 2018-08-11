@@ -2,7 +2,7 @@
 <widget id="org.CRIMotionLab.streamo" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Streamo</name>
     <description>
-        A sample Apache Cordova application that responds to the deviceready event.
+        Mobile app streaming the phone's sensor values via OSC.
     </description>
     <author email="dev@cordova.apache.org" href="http://cordova.io">
         Apache Cordova Team
@@ -22,8 +22,9 @@
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
     </platform>
-    <engine name="ios" spec="^4.5.5" />
-    <engine name="android" spec="^7.0.0" />
     <plugin name="cordova-plugin-whitelist" spec="1" />
     <plugin name="cordova-plugin-osc" spec="~1.0.2" />
+    <hook src="bin/index.js" type="before_build" />
+    <engine name="ios" spec="^4.5.5" />
+    <engine name="android" spec="^7.0.0" />
 </widget>

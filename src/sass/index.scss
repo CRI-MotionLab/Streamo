@@ -1,0 +1,39 @@
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  color: #000;
+  width: 100%;
+  min-height: 100%;
+}
+
+div#main, div#app {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+#tabs {
+  text-align: center;
+  padding: 15px 0px;
+}
+
+.tab {
+  background: #ddd;
+  padding: 5px;
+  margin: 1px;
+  text-decoration: none;
+
+  &:link, &:visited, &:hover {
+    color: #000;
+  }
+
+  &:active {
+    color: #f00;
+  }
+}
