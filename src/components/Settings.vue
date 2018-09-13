@@ -1,25 +1,24 @@
 <template>
   <div id="settings-container">
-    <label>
-      <input type="number" v-model="inputPort">
-      input port
-    </label>
-    <label>
-      <input type="number" v-model="outputPort">
-      output port
-    </label>
-    <label>
-      <div class="ip-container">
-        <input type="number" class="ip" v-model="ip1">
-        .
-        <input type="number" class="ip" v-model="ip2">
-        .
-        <input type="number" class="ip" v-model="ip3">
-        .
-        <input type="number" class="ip" v-model="ip4">
-      </div>
-      host IP
-    </label>
+    <div> input port </div>
+    <div>  <input type="number" v-model="inputPort"> </div>
+
+    <div> output port </div>
+    <div> <input type="number" v-model="outputPort"> </div>
+
+    <div> host IP </div>
+    <div class="ip-container">
+      <input type="number" class="ip" v-model="ip1">
+      .
+      <input type="number" class="ip" v-model="ip2">
+      .
+      <input type="number" class="ip" v-model="ip3">
+      .
+      <input type="number" class="ip" v-model="ip4">
+    </div>
+
+    <div> device identifier </div>
+    <div> <input type="text" v-model="deviceIdentifier"> </div>    
   </div>
 </template>
 
@@ -28,11 +27,11 @@
     computed: {
       inputPort: {
         get() { return this.$store.state.oscConfig.inputPort },
-        set(inputPort) { this.$store.commit('updateOscConfig', { inputPort }); },
+        set(inputPort) { this.$store.dispatch('updateOscConfig', { inputPort }); },
       },
       outputPort: {
         get() { return this.$store.state.oscConfig.outputPort },
-        set(outputPort) { this.$store.commit('updateOscConfig', { outputPort }); },
+        set(outputPort) { this.$store.dispatch('updateOscConfig', { outputPort }); },
       },
       ip1: {
         get() { return this.$store.state.oscConfig.hostIP.split('.')[0]; },
@@ -49,14 +48,18 @@
       ip4: {
         get() { return this.$store.state.oscConfig.hostIP.split('.')[3]; },
         set(value) { this.updateHostIP(value, 3); },
-      }
+      },
+      deviceIdentifier: {
+        get() { return this.$store.state.oscConfig.deviceIdentifier },
+        set(deviceIdentifier) { this.$store.dispatch('updateOscConfig', { deviceIdentifier }); },
+      },
     },
     methods: {
       updateHostIP(value, index) {
         const ip = this.$store.state.oscConfig.hostIP.split('.');
         ip[index] = value;
 
-        this.$store.commit('updateOscConfig', {
+        this.$store.dispatch('updateOscConfig', {
           hostIP: `${ip.join('.')}`
         });
       }
