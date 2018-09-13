@@ -29,37 +29,15 @@
     },
     methods: {
       // todo : enable reset magnetometer auto-calibration
+      // update >>> this is done from store : this.$store.dispatch('resetAutoMagCalibration')
     },
     mounted() {
       setInterval(() => {
-        [ 'x', 'y', 'z' ].forEach((c) => {
-          const val = this.$store.state.magValues[c];
-          const range = this.$store.state.magRanges[c];
-
-          if (val < range.min) {
-            range.min = val;
-            // this.$store.commit('updateMagRanges', { `${c}`: { min: val }});
-          }
-
-          if (val > range.max) {
-            range.max = val;
-            // this.$store.commit('updateMagRanges', { `${c}`: { max: val }});
-          }
-
-          if (range.min !== range.max) {
-            this.magValues[c] = ((val - range.min) / (range.max - range.min)) * 2 - 1
-          }
-
-          const r = {};
-          r[c] = { min: range.min, max: range.max };
-          this.$store.commit('updateMagRanges', r);
-        });
-
-        // this.magValues = {
-        //   x: this.$store.state.magValues.x,
-        //   y: this.$store.state.magValues.y,
-        //   z: this.$store.state.magValues.z,
-        // };
+        this.magValues = {
+          x: this.$store.state.normalizedMagValues.x,
+          y: this.$store.state.normalizedMagValues.y,
+          z: this.$store.state.normalizedMagValues.z,
+        };
       }, 50);
     },
   };

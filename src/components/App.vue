@@ -140,6 +140,29 @@ export default {
           y: reading.y,
           z: reading.z,
         });
+
+        const ranges = {};
+        const values = {};
+
+        [ 'x', 'y', 'z' ].forEach((c) => {
+          const val = reading[c];
+          const range = {
+            min: this.$store.state.magRanges[c].min,
+            max: this.$store.state.magRanges[c].max,
+          };
+
+          if (val < range.min) { range.min = val; }
+          if (val > range.max) { range.max = val; }
+
+          if (range.min !== range.max) {
+            values[c] = ((val - range.min) / (range.max - range.min)) * 2 - 1
+          }
+
+          ranges[c] = { min: range.min, max: range.max };
+        });
+
+        this.$store.commit('updateNormalizedMagValues', values);
+        this.$store.commit('updateMagRanges', ranges);
       }
     },
     onMagReadError(message) {

@@ -53,6 +53,11 @@ const store = new Vuex.Store({
       y: 0,
       z: 0,
     },
+    normalizedMagValues: {
+      x: 0,
+      y: 0,
+      z: 0,
+    },
     magRanges: {
       x: { min: 1e9, max: -1e9 },
       y: { min: 1e9, max: -1e9 },
@@ -70,6 +75,9 @@ const store = new Vuex.Store({
     },
     updateMagValues(state, values) {
       Object.assign(state.magValues, values);
+    },
+    updateNormalizedMagValues(state, values) {
+      Object.assign(state.normalizedMagValues, values);
     },
     updateMagRanges(state, values) {
       Object.assign(state.magRanges, values);
