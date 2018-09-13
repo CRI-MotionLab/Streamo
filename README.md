@@ -24,4 +24,4 @@ At the moment, Streamo only sends a single OSC frame with the following structur
 /streamo <deviceIdentifier> <accX> <accY> <accZ> <gyrX> <gyrY> <gyrZ> <magX> <magY> <magZ>
 ```
 
-The OSC settings can be changed from the settings tab (small gear icon). The `<deviceIdentifier>` property can be changed there too. Every change in the settings is persisted, anytime.
+The OSC parameters can be set from the settings tab (small gear icon at the right top of the screen). The `<deviceIdentifier>` property can be changed there too. Every change in the settings is persisted, anytime.
