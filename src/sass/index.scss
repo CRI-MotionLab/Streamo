@@ -1,11 +1,25 @@
+$lightYellow: #fff17a;
+$lightBlue: #7cdde2;
+$lightRed: #f45a54;
+
+$darkBlue: #4951D0;
+$darkerBlue: #2f36a7;
+
+$darkGrey: #aaa;
+$darkerGrey: #333;
+
+$mediaPath: '../assets/';
+$gearIconPath: $mediaPath + 'gearicon.png';
+
 html, body {
   height: 100%;
+  padding: 0;
+  margin: 0;
 }
 
 body {
-  margin: 0;
-  padding: 0;
-  color: #000;
+  background: $darkBlue;
+  color: #eee;
   width: 100%;
   min-height: 100%;
 }
@@ -16,24 +30,113 @@ div#main, div#app {
   right: 0;
   bottom: 0;
   left: 0;
+  padding: 0;
+  margin: 0;
+}
+
+div#app {
+  display: table;
+  width: 100%;
+  height: 100%;
 }
 
 #tabs {
-  text-align: center;
-  padding: 15px 0px;
+  position: relative;
+  background: $darkerBlue;
+  text-align: left;
+  padding: 10px;
+  padding-left: 0px;
+  margin: 0;
+  height: auto;
 }
 
 .tab {
-  background: #ddd;
-  padding: 5px;
-  margin: 1px;
+  color: #eee;
+  position: relative;
+  background: $darkerBlue;
+  padding: 10px 10px;
+  margin: 0;
   text-decoration: none;
 
   &:link, &:visited, &:hover {
-    color: #000;
+    // color: #eee;
   }
 
-  &:active {
-    color: #f00;
+  // solution from here
+  // https://stackoverflow.com/questions/46083220/how-to-vuejs-router-link-active-style
+
+  &:active, &.router-link-active {
+    background: $darkerGrey;
+  }
+
+  &#settings-tab {
+    vertical-align: center;
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin: 0;
+    padding: 0;
+
+    #settings-icon {
+      margin: 0;
+      padding: 0;
+      margin-right: 3px;
+      margin-top: 4px;
+      margin-left: 5px;
+      width: 30px;
+      height: 30px;
+      content: url($gearIconPath);
+    }
+  }
+}
+
+////////// make the canvas fill a div with padding :
+
+div.canvas-wrapper-wrapper-wrapper {
+  display: table-row;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+div.canvas-wrapper-wrapper {
+  position: relative;
+  height: 100%;
+  // if padding is needed around canvas :
+  // padding: 10px;
+  padding: 0;
+}
+
+div.canvas-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+canvas {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+////////// settings :
+
+div#settings-container {
+  padding: 10px;  
+}
+
+div.ip-container {
+  display: inline;
+  max-width: 60% !important;
+}
+
+input[type=number], input[type=text] {
+  margin: 5px 0px;
+  padding: 5px;
+  max-width: 60%;
+
+  &.ip {
+    display: inline;
+    max-width: 8% !important;
   }
 }
