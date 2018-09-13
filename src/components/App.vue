@@ -26,9 +26,6 @@
 <script>
 import router from '../js/router';
 
-const oneOverG = 1 / 9.8;
-const oneOverThreeSixty = 1 / 360;
-
 export default {
   router,
   props: [ 'childReady' ],
@@ -65,6 +62,8 @@ export default {
       // }, 20);
 
       this.startListeningDeviceMotion();
+      this.startListeningDeviceOrientation();
+      this.startListeningMagnetometer();
       this.startListeningOSC(this.$store.state.oscConfig.inputPort); // really needed ?
     },
     startListeningDeviceMotion() {
@@ -81,29 +80,23 @@ export default {
           e.accelerationIncludingGravity.y &&
           e.accelerationIncludingGravity.z) {
 
-        values.x = e.accelerationIncludingGravity.x * oneOverG;
-        values.y = e.accelerationIncludingGravity.y * oneOverG;
-        values.z = e.accelerationIncludingGravity.z * oneOverG * 0.25;
+        values.x = e.accelerationIncludingGravity.x;
+        values.y = e.accelerationIncludingGravity.y;
+        values.z = e.accelerationIncludingGravity.z;
 
         if (e.rotationRate &&
             e.rotationRate.alpha &&
             e.rotationRate.beta &&
             e.rotationRate.gamma) {
 
-          values.alpha = e.rotationRate.alpha * oneOverThreeSixty;
-          values.beta = e.rotationRate.beta * oneOverThreeSixty;
-          values.gamma = e.rotationRate.gamma * oneOverThreeSixty;
+          values.alpha = e.rotationRate.alpha;
+          values.beta = e.rotationRate.beta;
+          values.gamma = e.rotationRate.gamma;
         }
 
         // we commit even if the phone doesn't have a gyroscope
         // (angular velocities will remain equal to zero)
-
-        this.$store.commit('updateSensorValues', {
-          whichSensorValues: 'accGyrValues',
-          values: values,
-        });
-
-        console.log(JSON.stringify(values, null, 2));
+        this.$store.commit('updateAccGyrValues', values);
       }
 
       // this.sendOSC('/accel', [ values.accx, values.accy, values.accz ]);
@@ -115,17 +108,42 @@ export default {
       window.removeEventListener('deviceorientation', this.onDeviceOrientation);
     },
     onDeviceOrientation(e) {
-      this.$store.commit('updateSensorValues', {
-        whichSensorValues: 'magValues',
-        values: {
-          alpha: e.alpha,
-          beta: e.beta,
-          gamma: e.gamma,
-        },
-      });
+      const values = {};
 
-      console.log('received device orientation event');
-      console.log(JSON.stringify(e, null, 2));
+      if (e.alpha && e.beta && e.gamma) {
+        values.alpha = e.alpha;
+        values.beta = e.beta;
+        values.gamma = e.gamma;
+
+        // this shouldn't be pushed into magValues
+        // use a plugin for this instead
+        // this.$store.commit('updateSensorValues', {
+        //   whichSensorValues: 'magValues',
+        //   values: values,
+        // });
+      }
+    },
+    startListeningMagnetometer() {
+      this.magWatchId = cordova.plugins.magnetometer.watchReadings(
+        this.onMagReadSuccess,
+        this.onMagReadError,
+      );
+    },
+    stopListeningMagnetometer() {
+      cordova.plugins.magnetometer.stop([ this.magWatchId ]);
+    },
+    onMagReadSuccess(reading) {
+      // console.log(reading);
+      if (reading.magnitude && reading.x && reading.y && reading.z) {
+        this.$store.commit('updateMagValues', {
+          x: reading.x,
+          y: reading.y,
+          z: reading.z,
+        });
+      }
+    },
+    onMagReadError(message) {
+      // console.error(message);
     },
     startListeningOSC(inputPort) {
       console.log('starting listening OSC messages on port ' + inputPort);

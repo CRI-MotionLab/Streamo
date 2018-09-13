@@ -28,6 +28,7 @@
     <plugin name="cordova-plugin-osc" spec="~1.0.2" />
     <plugin name="cordova-plugin-file" spec="^6.0.1" />
     <hook src="bin/index.js" type="before_build" />
+    <plugin name="cordova-plugin-magnetometer" spec="https://github.com/sdesalas/cordova-plugin-magnetometer" />
     <engine name="ios" spec="^4.5.5" />
     <engine name="android" spec="^7.0.0" />
 </widget>

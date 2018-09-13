@@ -45,14 +45,19 @@ const store = new Vuex.Store({
       y: 0,
       z: 0,
       alpha: 0,
-      beta:0,
+      beta: 0,
       gamma: 0,
     },
     magValues: {
-      alpha: 0,
-      beta:0,
-      gamma: 0,
+      x: 0,
+      y: 0,
+      z: 0,
     },
+    magRanges: {
+      x: { min: 1e9, max: -1e9 },
+      y: { min: 1e9, max: -1e9 },
+      z: { min: 1e9, max: -1e9 },
+    }
   },
   // see https://stackoverflow.com/questions/44309627/vue-jsvuex-how-to-dispatch-from-a-mutation
   // (actually it is more "how to mutate from a dispatch" which is achieved here)
@@ -60,11 +65,24 @@ const store = new Vuex.Store({
     updateOscConfig(state, config) {
       Object.assign(state.oscConfig, config);
     },
-    updateSensorValues(state, { whichSensorValues, values }) {
-      Object.assign(state[whichSensorValues], values);
+    updateAccGyrValues(state, values) {
+      Object.assign(state.accGyrValues, values);
     },
+    updateMagValues(state, values) {
+      Object.assign(state.magValues, values);
+    },
+    updateMagRanges(state, values) {
+      Object.assign(state.magRanges, values);
+    }
   },
   actions: {
+    resetAutoMagCalibration({ commit }) {
+      commit('updateMagRanges', {
+        x: { min: 1e9, max: -1e9 },
+        y: { min: 1e9, max: -1e9 },
+        z: { min: 1e9, max: -1e9 },
+      })
+    },
     updateOscConfig({ dispatch, commit }, config) {
       commit('updateOscConfig', config);
       dispatch('persist');
@@ -96,7 +114,7 @@ const store = new Vuex.Store({
     persist({ state }) {
       const settings = {};
       Object.assign(settings, state);
-      [ 'accValues', 'gyrValues', 'magValues' ].forEach((item) => {
+      [ 'accGyrValues', 'magValues' ].forEach((item) => {
         delete settings[item];
       });
       const data = JSON.stringify(settings, null, '\t');
