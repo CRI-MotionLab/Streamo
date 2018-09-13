@@ -1,7 +1,17 @@
 # Streamo
 
-### A Mobile app emulating a Movuino device
+### A Mobile app that emulates a Movuino WiFi device
 
-Make sure you have all the build tools you need for building iOS and Android applications installed.
+##### building the app
 
-Then run `cordova `
+* install [Node.js](https://nodejs.org/en/download/)
+* install cordova globally by running `npm install -g cordova`
+* make sure you have all the tools required for building iOS and Android applications installed, following [these instructions](https://cordova.apache.org/docs/en/latest/guide/cli/#install-pre-requisites-for-building).
+
+Now you can `git clone` this repo, `cd` into it, then run `npm install`.
+Once the dependencies are installed, you can build the app using `cordova build <platform>`, and run it using `cordova run <platform>`.
+
+##### notes
+
+Streamo is based on the [Vue.js](https://vuejs.org/) framework.
+It uses `babel`, `browserify` and `node-sass` to allow for a modern writing style. It relies on the cordova plugins `cordova-plugin-osc`, `cordova-plugin-magnetometer` and `cordova-plugin-file`.
