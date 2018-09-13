@@ -5,5 +5,8 @@ node_modules/
 platforms/
 plugins/
 
+assets/gearicon*.*
+!assets/gearicon.png
+
 www/**
 !www/README.md

@@ -15,6 +15,7 @@ fs.ensureFileSync(config.cssOutput);
 fs.ensureFileSync(config.appSrcOutput);
 
 fs.copySync(config.htmlInput, config.htmlOutput);
+fs.copySync(config.assetsInput, config.assetsOutput);
 
 sass.render({
   file: config.sassInput,

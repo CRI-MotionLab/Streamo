@@ -6,6 +6,8 @@ const config = {
   appSrcOutput: 'www/js/index.js',
   htmlInput: 'src/index.html',
   htmlOutput: 'www/index.html',
+  assetsInput: 'assets',
+  assetsOutput: 'www/assets',
 };
 
 module.exports = config;
