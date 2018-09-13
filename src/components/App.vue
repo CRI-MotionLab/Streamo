@@ -64,6 +64,7 @@ export default {
       this.startListeningDeviceMotion();
       this.startListeningDeviceOrientation();
       this.startListeningMagnetometer();
+      this.startSendingOSC();
       this.startListeningOSC(this.$store.state.oscConfig.inputPort); // really needed ?
     },
     startListeningDeviceMotion() {
@@ -167,6 +168,26 @@ export default {
     },
     onMagReadError(message) {
       // console.error(message);
+    },
+    startSendingOSC(interval = 10) { // interval between consecutive frames in ms
+      this.sendOscId = setInterval(() => {
+        this.sendOSC('/streamo', [
+          this.$store.state.oscConfig.deviceIdentifier,
+          this.$store.state.accGyrValues.x,
+          this.$store.state.accGyrValues.y,
+          this.$store.state.accGyrValues.z,
+          this.$store.state.accGyrValues.alpha,
+          this.$store.state.accGyrValues.beta,
+          this.$store.state.accGyrValues.gamma,
+          this.$store.state.normalizedMagValues.x,
+          this.$store.state.normalizedMagValues.y,
+          this.$store.state.normalizedMagValues.z,
+        ]);
+      }, interval);
+    },
+    stopSendingOSC() {
+      clearInterval(this.sendOscId);
+      this.sendOscId = null;
     },
     startListeningOSC(inputPort) {
       console.log('starting listening OSC messages on port ' + inputPort);

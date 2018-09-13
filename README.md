@@ -12,7 +12,10 @@ If not already done :
 Now you can `git clone` this repo, `cd` into it, then run `npm install`.  
 Once the dependencies are installed you can build the app using `cordova build <platform>`, then run it using `cordova run <platform>`.
 
-#### notes
+#### dependencies
 
-Streamo is based on the [Vue.js](https://vuejs.org/) framework.  
-It uses `babel`, `browserify` and `node-sass` to allow for a modern writing style. It relies on the cordova plugins `cordova-plugin-osc`, `cordova-plugin-magnetometer` and `cordova-plugin-file`.
+Streamo is a cordova application based on the [Vue.js](https://vuejs.org/) framework. It uses `babel`, `browserify` and `node-sass` to allow for a modern writing style. It relies on the cordova plugins `cordova-plugin-osc`, `cordova-plugin-magnetometer` and `cordova-plugin-file`.
+
+#### OSC
+
+At the moment, Streamo only sends a single OSC frame with the following structure : `/streamo <deviceIdentifier> <accX> <accY> <accZ> <gyrX> <gyrY> <gyrZ> <magX> <magY> <magZ>`. The OSC settings can be changed from the settings tab (small gear icon). The `<deviceIdentifier>` property can be changed there too. Every change in the settings is persisted, anytime.
