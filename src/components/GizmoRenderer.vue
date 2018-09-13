@@ -2,6 +2,8 @@
 <script>
   // some vars and helper functions first :
 
+  // david's answer in :
+  // https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
   function hexToRgba(hex, a) {
     if (hex.charAt(0) === '#') {
       var bigint = parseInt(hex.substr(1), 16);
@@ -79,7 +81,7 @@
 
       ///// draw red lines
 
-      const angle = this.z; // - 0.5;
+      const angle = this.z;
       const anti = angle < 0;
       ctx.lineWidth = 10;
 

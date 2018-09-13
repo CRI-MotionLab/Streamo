@@ -12,6 +12,8 @@
   import Gizmo from './GizmoRenderer.vue';
   import CanvasComponent from './CanvasComponent.vue';
 
+  const oneOverThreeSixty = 1 / 360;
+
   export default {
     name: 'gyroscope',
     data() {
@@ -33,9 +35,9 @@
     mounted() {
       setInterval(() => {
         this.gyrValues = {
-          x: this.$store.state.accGyrValues.alpha,
-          y: this.$store.state.accGyrValues.beta,
-          z: this.$store.state.accGyrValues.gamma,
+          x: this.$store.state.accGyrValues.alpha * oneOverThreeSixty,
+          y: this.$store.state.accGyrValues.beta * oneOverThreeSixty,
+          z: this.$store.state.accGyrValues.gamma * -0.5 * oneOverThreeSixty,
         };
       }, 50);
     },

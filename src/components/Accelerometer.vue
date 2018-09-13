@@ -12,6 +12,8 @@
   import Gizmo from './GizmoRenderer.vue';
   import CanvasComponent from './CanvasComponent.vue';
 
+  const oneOverG = 1 / 9.8;
+
   export default {
     name: 'accelerometer',
     data() {
@@ -33,9 +35,9 @@
     mounted() {
       setInterval(() => {
         this.accValues = {
-          x: this.$store.state.accGyrValues.x,
-          y: this.$store.state.accGyrValues.y,
-          z: this.$store.state.accGyrValues.z,
+          x: this.$store.state.accGyrValues.x * oneOverG,
+          y: this.$store.state.accGyrValues.y * oneOverG,
+          z: this.$store.state.accGyrValues.z * -0.5 * oneOverG,
         };
       }, 50);
     },
