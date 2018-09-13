@@ -10,9 +10,9 @@ export default new VueRouter({
   // 'mode': 'history',
   // scrollBehavior: () => ({ y: 0 }),
   'routes': [
-    { path: '/accel', component: Accelerometer },
-    { path: '/gyro', component: Gyroscope },
-    { path: '/magneto', component: Gyroscope },
+    { path: '/accel', component: Accelerometer, props: true },
+    { path: '/gyro', component: Gyroscope, props: true },
+    { path: '/magneto', component: Magnetometer, props: true },
     { path: '/settings', component: Settings },
     { path: '*', redirect: '/accel' }, // redirect to accel at startup
   ]
