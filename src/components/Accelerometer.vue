@@ -35,8 +35,8 @@
     mounted() {
       setInterval(() => {
         this.accValues = {
-          x: this.$store.state.accGyrValues.x * oneOverG,
-          y: this.$store.state.accGyrValues.y * oneOverG,
+          x: this.$store.state.accGyrValues.x * -1 * oneOverG,
+          y: this.$store.state.accGyrValues.y * -1 * oneOverG,
           z: this.$store.state.accGyrValues.z * -0.5 * oneOverG,
         };
       }, 50);
