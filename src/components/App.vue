@@ -1,3 +1,6 @@
+<style lang="scss">
+</style>
+
 <template>
   <div id="app">
     <div id="tabs">
@@ -11,7 +14,8 @@
         Magneto
       </router-link>
       <router-link to="/settings" id="settings-tab" class="tab">
-        Settings
+        <!-- Settings -->
+        <img id="settings-icon">
       </router-link>
     </div>
 
@@ -22,11 +26,14 @@
 <script>
 import router from '../js/router';
 
+const oneOverG = 1 / 9.8;
+const oneOverThreeSixty = 1 / 360;
+
 export default {
   router,
-  props: [ 'childStatus' ],
+  props: [ 'childReady' ],
   watch: {
-    childStatus: {
+    childReady: {
       immediate: true,
       deep: true,
       handler: function(val) {
@@ -35,7 +42,7 @@ export default {
     },
   },
   methods: {
-    init: function() {
+    init() {
       this.$store.watch(this.$store.getters.inputPort, (val, oldVal) => {
         if (val !== oldVal) {
           this.stopListeningOSC();
@@ -43,28 +50,89 @@ export default {
         }
       });
 
+      // faking accelerometer for tests in emulator
+      // setInterval(() => {
+      //   const amp = 0.5;
+      //   const offset = -0.25;
+      //   this.$store.commit('updateSensorValues', {
+      //     whichSensorValues: 'accGyrValues',
+      //     values: {
+      //       x: Math.random() * amp + offset,
+      //       y: Math.random() * amp + offset,
+      //       z: Math.random() * amp + offset,
+      //     },
+      //   });
+      // }, 20);
+
       this.startListeningDeviceMotion();
       this.startListeningOSC(this.$store.state.oscConfig.inputPort); // really needed ?
     },
-    startListeningDeviceMotion: function() {
+    startListeningDeviceMotion() {
       window.addEventListener('devicemotion', this.onDeviceMotion, true);
     },
-    stopListeningDeviceMotion: function() {
+    stopListeningDeviceMotion() {
       window.removeEventListener('devicemotion', this.onDeviceMotion);
     },
-    startListeningOSC: function(inputPort) {
+    onDeviceMotion(e) {
+      const values = {};
+
+      if (e.accelerationIncludingGravity &&
+          e.accelerationIncludingGravity.x &&
+          e.accelerationIncludingGravity.y &&
+          e.accelerationIncludingGravity.z) {
+
+        values.x = e.accelerationIncludingGravity.x * oneOverG;
+        values.y = e.accelerationIncludingGravity.y * oneOverG;
+        values.z = e.accelerationIncludingGravity.z * oneOverG * 0.25;
+
+        if (e.rotationRate &&
+            e.rotationRate.alpha &&
+            e.rotationRate.beta &&
+            e.rotationRate.gamma) {
+
+          values.alpha = e.rotationRate.alpha * oneOverThreeSixty;
+          values.beta = e.rotationRate.beta * oneOverThreeSixty;
+          values.gamma = e.rotationRate.gamma * oneOverThreeSixty;
+        }
+
+        // we commit even if the phone doesn't have a gyroscope
+        // (angular velocities will remain equal to zero)
+
+        this.$store.commit('updateSensorValues', {
+          whichSensorValues: 'accGyrValues',
+          values: values,
+        });
+
+        console.log(JSON.stringify(values, null, 2));
+      }
+
+      // this.sendOSC('/accel', [ values.accx, values.accy, values.accz ]);
+    },
+    startListeningDeviceOrientation() {
+      window.addEventListener('deviceorientation', this.onDeviceOrientation, true);
+    },
+    stopListeningDeviceOrientation() {
+      window.removeEventListener('deviceorientation', this.onDeviceOrientation);
+    },
+    onDeviceOrientation(e) {
+      this.$store.commit('updateSensorValues', {
+        whichSensorValues: 'magValues',
+        values: {
+          alpha: e.alpha,
+          beta: e.beta,
+          gamma: e.gamma,
+        },
+      });
+
+      console.log('received device orientation event');
+      console.log(JSON.stringify(e, null, 2));
+    },
+    startListeningOSC(inputPort) {
       console.log('starting listening OSC messages on port ' + inputPort);
       window.osc.startListening(inputPort);
     },
-    stopListeningOSC: function() {
+    stopListeningOSC() {
       window.osc.stopListening();
-    },
-    onDeviceMotion(e) {
-      const x = e.accelerationIncludingGravity.x;
-      const y = e.accelerationIncludingGravity.y;
-      const z = e.accelerationIncludingGravity.z;
-
-      this.sendOSC('/accel', [ x, y, z ]);
     },
     sendOSC(address, args) {
       window.osc.send({
@@ -76,7 +144,7 @@ export default {
     },
     routeReceivedOSC() {
       // todo
-    }
+    },
   },
 };
 </script>
