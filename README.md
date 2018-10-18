@@ -1,6 +1,6 @@
 # Streamo
 
-### A mobile app that emulates a Movuino WiFi device
+### A mobile app emulating a Movuino WiFi device (with visualization)
 
 #### building the app
 
@@ -18,10 +18,16 @@ Streamo is a cordova application based on the [Vue.js](https://vuejs.org/) frame
 
 #### OSC
 
-At the moment, Streamo only sends a single OSC frame with the following structure :  
+Streamo only sends a single OSC frame with the following structure :  
 
 ```
 /streamo <deviceIdentifier> <accX> <accY> <accZ> <gyrX> <gyrY> <gyrZ> <magX> <magY> <magZ>
 ```
 
 The OSC parameters can be set from the settings tab (small gear icon at the right top of the screen). The `<deviceIdentifier>` property can be changed there too. Every change in the settings is persisted, anytime.
+
+#### notes
+
+At the moment :
+* vueify only supports babel 6, so no babel 7 yet.
+* this application has only been tested on Android, built on OSX using cordova v6.5.0 and cordova-android v6.3.0 (other configurations might work)
