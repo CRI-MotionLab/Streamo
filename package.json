@@ -12,17 +12,6 @@
       "cordova-plugin-osc": {},
       "cordova-plugin-file": {},
       "cordova-plugin-magnetometer": {},
-      "cordova-plugin-crosswalk-webview": {
-        "XWALK_VERSION": "23+",
-        "XWALK_LITEVERSION": "xwalk_core_library_canary:17+",
-        "XWALK_COMMANDLINE": "--disable-pull-to-refresh-effect",
-        "XWALK_MODE": "embedded",
-        "XWALK_MULTIPLEAPK": "true",
-        "XWALK_64BIT": "false"
-      },
-      "cordova-android-support-gradle-release": {
-        "ANDROID_SUPPORT_VERSION": "27.+"
-      }
     }
   },
   "dependencies": {
