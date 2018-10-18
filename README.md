@@ -29,5 +29,5 @@ The OSC parameters can be set from the settings tab (small gear icon at the righ
 #### notes
 
 At the moment :
-* vueify only supports babel 6, so no babel 7 yet.
+* vueify (which is the only way I found so far to transpile vue single-file-components) only supports babel 6, so no babel 7 yet.
 * this application has only been tested on Android, built on OSX using cordova v6.5.0 and cordova-android v6.3.0 (other configurations might work)
