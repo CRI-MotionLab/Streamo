@@ -1,6 +1,7 @@
 <template>
   <canvas-component>
     <gizmo
+      :name="'magnetometer'"
       :x="this.magValues.x"
       :y="this.magValues.y"
       :z="this.magValues.z"
@@ -30,15 +31,20 @@
     methods: {
       // todo : enable reset magnetometer auto-calibration
       // update >>> this is done from store : this.$store.dispatch('resetAutoMagCalibration')
+      // maybe it would make more sense to trig reset from here ...
     },
     mounted() {
-      setInterval(() => {
+      this.intervalId = setInterval(() => {
         this.magValues = {
           x: this.$store.state.normalizedMagValues.x,
           y: this.$store.state.normalizedMagValues.y,
           z: this.$store.state.normalizedMagValues.z,
         };
       }, 50);
+    },
+    beforeDestroy() {
+      clearInterval(this.intervalId);
+      this.intervalId = null;
     },
   };
 </script>

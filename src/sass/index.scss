@@ -10,6 +10,7 @@ $darkerGrey: #333;
 
 $mediaPath: '../assets/';
 $gearIconPath: $mediaPath + 'gearicon.png';
+$blueRingPath: $mediaPath + 'bluering.png';
 
 html, body {
   height: 100%;
@@ -119,6 +120,10 @@ canvas {
   height: 100%;
 }
 
+// div.bluering {
+//   background: url($blueRingPath);
+// }
+
 ////////// settings :
 
 div#settings-container {
@@ -134,6 +139,11 @@ input[type=number], input[type=text] {
   margin: 5px 0px;
   padding: 5px;
   max-width: 60%;
+  background-color: #fff;
+
+  &.invalid {
+    background-color: #f00;
+  }
 
   &.ip {
     display: inline;

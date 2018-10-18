@@ -11,7 +11,18 @@
       "cordova-plugin-whitelist": {},
       "cordova-plugin-osc": {},
       "cordova-plugin-file": {},
-      "cordova-plugin-magnetometer": {}
+      "cordova-plugin-magnetometer": {},
+      "cordova-plugin-crosswalk-webview": {
+        "XWALK_VERSION": "23+",
+        "XWALK_LITEVERSION": "xwalk_core_library_canary:17+",
+        "XWALK_COMMANDLINE": "--disable-pull-to-refresh-effect",
+        "XWALK_MODE": "embedded",
+        "XWALK_MULTIPLEAPK": "true",
+        "XWALK_64BIT": "false"
+      },
+      "cordova-android-support-gradle-release": {
+        "ANDROID_SUPPORT_VERSION": "27.+"
+      }
     }
   },
   "dependencies": {
@@ -19,14 +30,17 @@
     "babel-preset-env": "^1.7.0",
     "babelify": "^8.0.0",
     "browserify": "^16.2.2",
-    "cordova-android": "^7.0.0",
+    "cordova-android": "^6.3.0",
+    "cordova-android-support-gradle-release": "^1.4.5",
     "cordova-ios": "^4.5.5",
+    "cordova-plugin-crosswalk-webview": "^2.4.0",
     "cordova-plugin-file": "^6.0.1",
     "cordova-plugin-magnetometer": "git+https://github.com/sdesalas/cordova-plugin-magnetometer.git",
     "cordova-plugin-osc": "^1.0.2",
     "cordova-plugin-whitelist": "1",
     "fs-extra": "^7.0.0",
     "node-sass": "^4.9.2",
+    "three": "^0.96.0",
     "vue": "^2.5.17",
     "vue-router": "^3.0.1",
     "vueify": "^9.4.1",

@@ -68,19 +68,19 @@ const store = new Vuex.Store({
   // (actually it is more "how to mutate from a dispatch" which is achieved here)
   mutations: {
     updateOscConfig(state, config) {
-      Object.assign(state.oscConfig, config);
+      state.oscConfig = Object.assign({}, config);
     },
     updateAccGyrValues(state, values) {
-      Object.assign(state.accGyrValues, values);
+      state.accGyrValues = Object.assign({}, values);
     },
     updateMagValues(state, values) {
-      Object.assign(state.magValues, values);
+      state.magValues = Object.assign({}, values);
     },
     updateNormalizedMagValues(state, values) {
-      Object.assign(state.normalizedMagValues, values);
+      state.normalizedMagValues = Object.assign({}, values);
     },
     updateMagRanges(state, values) {
-      Object.assign(state.magRanges, values);
+      state.magRanges = Object.assign({}, values);
     }
   },
   actions: {
@@ -99,24 +99,27 @@ const store = new Vuex.Store({
     // https://www.neontribe.co.uk/cordova-file-plugin-examples/
     ////////// retrieve from file
     retrieve({ state, dispatch }) {
-      const pathToFile = `${cordova.file.dataDirectory}${settingsFilename}`;
+      return new Promise((resolve, reject) => {
+        const pathToFile = `${cordova.file.dataDirectory}${settingsFilename}`;
 
-      window.resolveLocalFileSystemURL(pathToFile, (fileEntry) => {
-        fileEntry.file((file) => {
-          const reader = new FileReader();
+        window.resolveLocalFileSystemURL(pathToFile, (fileEntry) => {
+          fileEntry.file((file) => {
+            const reader = new FileReader();
 
-          reader.onloadend = function(e) {
-            // console.log('config file loaded !');
-            Object.assign(state, JSON.parse(this.result));
-          };
+            reader.onloadend = function(e) {
+              // console.log('config file loaded !');
+              Object.assign(state, JSON.parse(this.result));
+              resolve();
+            };
 
-          reader.readAsText(file);
+            reader.readAsText(file);
+          }, (function(filename, e) {
+            if (e.code === FileError.NOT_FOUND_ERR) dispatch('persist');
+          }).bind(null, settingsFilename));
         }, (function(filename, e) {
           if (e.code === FileError.NOT_FOUND_ERR) dispatch('persist');
         }).bind(null, settingsFilename));
-      }, (function(filename, e) {
-        if (e.code === FileError.NOT_FOUND_ERR) dispatch('persist');
-      }).bind(null, settingsFilename));
+      });
     },
     ////////// persist to file
     persist({ state }) {
@@ -146,7 +149,7 @@ const store = new Vuex.Store({
     },
   },
   // see https://codepen.io/CodinCat/pen/PpNvYr
-  // (allows to watch inputPort from App.vue)
+  // (allows to watch variables from App.vue)
   getters: {
     inputPort: state => () => state.oscConfig.inputPort,
     accGyrValues: state => () => state.accGyrValues,

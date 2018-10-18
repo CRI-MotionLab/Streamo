@@ -42,6 +42,7 @@
     // Gets us the provider property from the parent <my-canvas> component.
     inject: [ 'provider' ],
     props: {
+      name: { type: String, default: '' },
       x: { type: Number, default: 0 },
       y: { type: Number, default: 0 },
       z: { type: Number, default: 0 },

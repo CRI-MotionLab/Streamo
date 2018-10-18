@@ -1,6 +1,7 @@
 <template>
   <canvas-component>
     <gizmo
+      :name="'accelerometer'"
       :x="this.accValues.x"
       :y="this.accValues.y"
       :z="this.accValues.z"
@@ -33,13 +34,17 @@
 
     },
     mounted() {
-      setInterval(() => {
+      this.intervalId = setInterval(() => {
         this.accValues = {
           x: this.$store.state.accGyrValues.x * -1 * oneOverG,
           y: this.$store.state.accGyrValues.y * -1 * oneOverG,
           z: this.$store.state.accGyrValues.z * -0.5 * oneOverG,
         };
       }, 50);
+    },
+    beforeDestroy() {
+      clearInterval(this.intervalId);
+      this.intervalId = null;
     },
   };
 </script>

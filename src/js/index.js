@@ -16,13 +16,28 @@ const main = new Vue({
   },
   data: {
     parentReady: false,
+    parentInputPort: 8000,
   },
   methods: {
     init: function() {
+      this.$store.watch(this.$store.getters.inputPort, (val, oldVal) => {
+        if (val !== oldVal) {
+          console.log('new input port ' + val);
+          // window.osc = new OSC(val);
+          delete window.osc;
+          window.osc = new OSC();
+          this.parentInputPort = val;
+        }
+      });
+
       // quick n' dirty way to make OSC plugin accessible to other components
+      // needs to be reinstanciated when input port has to change (see above)
       window.osc = new OSC();
+
       // load settings from persistent file or create defaut if !exists (see store.js)
-      store.dispatch('retrieve');
+      store.dispatch('retrieve').then(() => {
+        this.parentInputPort = this.$store.state.oscConfig.inputPort;
+      });
       // when every initialization stuff is done, we set this.parentReady true
       // this is propagated from <main-component :child-ready="parentReady">
       // (in index.html) to App.vue and trigs a call to App's init function

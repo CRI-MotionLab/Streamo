@@ -4,6 +4,9 @@
 <template>
   <div id="app">
     <div id="tabs">
+      <router-link to="/all" id="all-tab" class="tab">
+        All
+      </router-link>
       <router-link to="/accel" id="accel-tab" class="tab">
         Accel
       </router-link>
@@ -28,7 +31,7 @@ import router from '../js/router';
 
 export default {
   router,
-  props: [ 'childReady' ],
+  props: [ 'childReady', 'inputPort' ],
   watch: {
     childReady: {
       immediate: true,
@@ -37,29 +40,32 @@ export default {
         if (val) this.init();
       },
     },
+    inputPort: {
+      handler: function(val) {
+        this.startListeningOSC(val);
+      }
+    }
   },
   methods: {
     init() {
-      this.$store.watch(this.$store.getters.inputPort, (val, oldVal) => {
-        if (val !== oldVal) {
-          this.stopListeningOSC();
-          this.startListeningOSC(val);
-        }
-      });
+      // window.osc.startListening(this.$store.state.oscConfig.inputPort, () => {
+      //   console.log('...  now listening');
+      // }, (err) => console.error(err));
+      // this.startListeningOSC(this.$store.state.oscConfig.inputPort);
 
       // faking accelerometer for tests in emulator
       // setInterval(() => {
-      //   const amp = 0.5;
-      //   const offset = -0.25;
-      //   this.$store.commit('updateSensorValues', {
-      //     whichSensorValues: 'accGyrValues',
-      //     values: {
-      //       x: Math.random() * amp + offset,
-      //       y: Math.random() * amp + offset,
-      //       z: Math.random() * amp + offset,
-      //     },
+      //   const amp = 3;
+      //   const offset = -1.5;
+      //   this.$store.commit('updateAccGyrValues', {
+      //     x: Math.random() * amp + offset,
+      //     y: Math.random() * amp + offset,
+      //     z: Math.random() * amp + offset,
+      //     alpha: Math.random * 180,
+      //     beta: Math.random * 180,
+      //     gamma: Math.random * 180,
       //   });
-      // }, 20);
+      // }, 50);
 
       this.startListeningDeviceMotion();
       this.startListeningDeviceOrientation();
@@ -190,11 +196,19 @@ export default {
       this.sendOscId = null;
     },
     startListeningOSC(inputPort) {
-      console.log('starting listening OSC messages on port ' + inputPort);
-      window.osc.startListening(inputPort);
+      console.log('starting listening OSC messages on port ' + inputPort + ' ...');
+      window.osc.startListening(inputPort, () => {
+        console.log('...  now listening');
+      }, (err) => console.error(err));
     },
     stopListeningOSC() {
-      window.osc.stopListening();
+      return new Promise((resolve, reject) => {
+        window.osc.stopListening(() => {
+          resolve();
+        }, () => {
+          reject();
+        });
+      });
     },
     sendOSC(address, args) {
       window.osc.send({

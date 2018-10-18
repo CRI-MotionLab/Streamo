@@ -1,20 +1,20 @@
 <template>
   <div id="settings-container">
     <div> input port </div>
-    <div>  <input type="number" v-model="inputPort"> </div>
+    <div>  <input type="number" v-model="inputPort" :class="validInputPort"> </div>
 
     <div> output port </div>
-    <div> <input type="number" v-model="outputPort"> </div>
+    <div> <input type="number" v-model="outputPort" :class="validOutputPort"> </div>
 
     <div> host IP </div>
     <div class="ip-container">
-      <input type="number" class="ip" v-model="ip1">
+      <input type="number" class="ip" v-model="ip1" :class="validHostIp">
       .
-      <input type="number" class="ip" v-model="ip2">
+      <input type="number" class="ip" v-model="ip2" :class="validHostIp">
       .
-      <input type="number" class="ip" v-model="ip3">
+      <input type="number" class="ip" v-model="ip3" :class="validHostIp">
       .
-      <input type="number" class="ip" v-model="ip4">
+      <input type="number" class="ip" v-model="ip4" :class="validHostIp">
     </div>
 
     <div> device identifier </div>
@@ -24,14 +24,35 @@
 
 <script>
   export default {
+    data() {
+      return {
+        validInputPort: '',
+        validOutputPort: '',
+        validHostIp: '',
+      };
+    },
     computed: {
       inputPort: {
         get() { return this.$store.state.oscConfig.inputPort },
         set(inputPort) { this.$store.dispatch('updateOscConfig', { inputPort }); },
+        //   if (inputPort > 1023) {
+        //     this.validInputPort = '';
+        //     this.$store.dispatch('updateOscConfig', { inputPort });
+        //   } else {
+        //     this.validInputPort = 'invalid';
+        //   }
+        // },
       },
       outputPort: {
         get() { return this.$store.state.oscConfig.outputPort },
         set(outputPort) { this.$store.dispatch('updateOscConfig', { outputPort }); },
+        //   if (outputPort > 1023) {
+        //     this.validOutputPort = '';
+        //     this.$store.dispatch('updateOscConfig', { outputPort });
+        //   } else {
+        //     this.validOutputPort = 'invalid';
+        //   }
+        // },
       },
       ip1: {
         get() { return this.$store.state.oscConfig.hostIP.split('.')[0]; },
@@ -58,7 +79,14 @@
       updateHostIP(value, index) {
         const ip = this.$store.state.oscConfig.hostIP.split('.');
         ip[index] = value;
+        // ip.forEach((item) => { 
+        //   if (item < 0 || item > 255) {
+        //     this.validHostIp = 'invalid';
+        //     return;
+        //   }
+        // });
 
+        // this.validHostIp = '';
         this.$store.dispatch('updateOscConfig', {
           hostIP: `${ip.join('.')}`
         });

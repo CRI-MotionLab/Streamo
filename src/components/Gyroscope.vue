@@ -1,6 +1,7 @@
 <template>
   <canvas-component>
     <gizmo
+      :name="'gyroscope'"
       :x="this.gyrValues.x"
       :y="this.gyrValues.y"
       :z="this.gyrValues.z"
@@ -33,13 +34,17 @@
 
     },
     mounted() {
-      setInterval(() => {
+      this.intervalId = setInterval(() => {
         this.gyrValues = {
           x: this.$store.state.accGyrValues.alpha * oneOverThreeSixty,
           y: this.$store.state.accGyrValues.beta * oneOverThreeSixty,
           z: this.$store.state.accGyrValues.gamma * -0.5 * oneOverThreeSixty,
         };
       }, 50);
+    },
+    beforeDestroy() {
+      clearInterval(this.intervalId);
+      this.intervalId = null;
     },
   };
 </script>
