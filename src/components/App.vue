@@ -1,8 +1,6 @@
-<style lang="scss">
-</style>
-
 <template>
   <div id="app">
+    <lightbox />
     <div id="tabs">
       <router-link to="/all" id="all-tab" class="tab">
         All
@@ -27,10 +25,14 @@
 </template>
 
 <script>
+import LightBox from './LightBox.vue';
 import router from '../js/router';
 
 export default {
   router,
+  components: {
+    lightbox: LightBox,
+  },
   props: [ 'childReady', 'inputPort' ],
   watch: {
     childReady: {
@@ -67,11 +69,19 @@ export default {
       //   });
       // }, 50);
 
+      this.constantVibratorInterval = null;
+      this.wasConstantlyVibrating = false;
+      this.pulseVibratorInterval = null;
+      this.vibOn = 0;
+      this.vibOff = 0;
+      this.vibTimes = 0;
+      this.vibCnt = 0;
+
       this.startListeningDeviceMotion();
       this.startListeningDeviceOrientation();
       this.startListeningMagnetometer();
       this.startSendingOSC();
-      this.startListeningOSC(this.$store.state.oscConfig.inputPort); // really needed ?
+      // this.startListeningOSC(this.$store.state.oscConfig.inputPort); // really needed ?
     },
     startListeningDeviceMotion() {
       window.addEventListener('devicemotion', this.onDeviceMotion, true);
@@ -199,11 +209,15 @@ export default {
       console.log('starting listening OSC messages on port ' + inputPort + ' ...');
       window.osc.startListening(inputPort, () => {
         console.log('...  now listening');
+        window.osc.on('/vibro/now', this._onVibroNow);
+        window.osc.on('/vibro/pulse', this._onVibroPulse)
       }, (err) => console.error(err));
     },
     stopListeningOSC() {
       return new Promise((resolve, reject) => {
         window.osc.stopListening(() => {
+          window.osc.removeListener('/vibro/now', this._onVibroNow)
+          window.osc.removeListener('/vibro/pulse', this._onVibroPulse)
           resolve();
         }, () => {
           reject();
@@ -218,8 +232,72 @@ export default {
         arguments: args,
       });
     },
-    routeReceivedOSC() {
-      // todo
+    _onVibroNow(message) {
+      if (Array.isArray(message.arguments) && message.arguments.length > 0) {
+        navigator.vibrate(0);
+
+        if (this.constantVibratorInterval !== null) {
+          clearInterval(this.constantVibratorInterval);
+          this.constantVibratorInterval = null;
+        }
+
+        if (message.arguments[0] != 0) {
+          this.wasConstantlyVibrating = true;
+          navigator.vibrate(5000);
+          this.constantVibratorInterval = setInterval(() => {
+            navigator.vibrate(0);
+            navigator.vibrate(5000);
+          }, 4990);
+        } else {
+          this.wasConstantlyVibrating = false;
+          // navigator.vibrate(0);
+          // clearInterval(this.constantVibratorInterval);
+          // this.constantVibratorInterval = null;
+        }
+      }
+    },
+    _onVibroPulse(message) {
+      navigator.vibrate(0);
+      
+      if (this.pulseVibratorInterval !== null) {
+        clearInterval(this.pulseVibratorInterval);
+        this.pulseVibratorInterval = null;
+      }
+
+      if (this.constantVibratorInterval !== null) {
+        this._onVibroNow({ arguments: [0] });
+        this.wasConstantlyVibrating = true;
+      }
+
+      if (Array.isArray(message.arguments) && message.arguments.length > 2) {
+        this.vibOn = message.arguments[0];
+        this.vibOff = message.arguments[1];
+        this.vibTimes = message.arguments[2];
+
+        this.vibCnt = 0;
+
+        if (this.vibCnt < this.vibTimes || this.vibTimes < 0) {
+          navigator.vibrate(this.vibOn);
+          if (this.vibTimes >= 0) {
+            this.vibCnt++;
+          }
+        }
+
+        this.pulseVibratorInterval = setInterval(() => {
+          if (this.vibCnt < this.vibTimes || this.vibTimes < 0) {
+            navigator.vibrate(this.vibOn);
+            if (this.vibTimes >= 0) {
+              this.vibCnt++;
+            }
+          } else {
+            clearInterval(this.pulseVibratorInterval);
+            this.pulseVibratorInterval = null;
+            if (this.wasConstantlyVibrating) {
+              this._onVibroNow({ arguments: [1] });
+            }
+          }
+        }, this.vibOn + this.vibOff);
+      }
     },
   },
 };
