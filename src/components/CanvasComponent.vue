@@ -1,4 +1,7 @@
-<!-- mostly stolen from https://alligator.io/vuejs/vue-html5-canvas/ -->
+<!--
+mostly stolen from
+https://alligator.io/vuejs/vue-html5-canvas/
+-->
 
 <template>
   <div class="canvas-wrapper-wrapper-wrapper">

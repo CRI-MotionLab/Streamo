@@ -1,4 +1,8 @@
-<!-- mostly stolen from https://alligator.io/vuejs/vue-html5-canvas/ -->
+<!--
+mostly stolen from
+https://alligator.io/vuejs/vue-html5-canvas/
+-->
+
 <script>
   // some vars and helper functions first :
 

@@ -68,7 +68,7 @@ const store = new Vuex.Store({
   // (actually it is more "how to mutate from a dispatch" which is achieved here)
   mutations: {
     updateOscConfig(state, config) {
-      state.oscConfig = Object.assign({}, config);
+      state.oscConfig = Object.assign({}, state.oscConfig, config);
     },
     updateAccGyrValues(state, values) {
       state.accGyrValues = Object.assign({}, values);
@@ -107,17 +107,26 @@ const store = new Vuex.Store({
             const reader = new FileReader();
 
             reader.onloadend = function(e) {
-              // console.log('config file loaded !');
-              Object.assign(state, JSON.parse(this.result));
+              // sanity checks
+              const config = {};
+              const fileConfig = JSON.parse(this.result).oscConfig;
+              for (let key in state.oscConfig) {
+                config[key] = fileConfig[key] || state.oscConfig[key];
+              }
+              dispatch('updateOscConfig', config);
               resolve();
             };
 
             reader.readAsText(file);
           }, (function(filename, e) {
-            if (e.code === FileError.NOT_FOUND_ERR) dispatch('persist');
+            if (e.code === FileError.NOT_FOUND_ERR) {
+              dispatch('persist');
+            }
           }).bind(null, settingsFilename));
         }, (function(filename, e) {
-          if (e.code === FileError.NOT_FOUND_ERR) dispatch('persist');
+          if (e.code === FileError.NOT_FOUND_ERR) {
+            dispatch('persist');
+          }
         }).bind(null, settingsFilename));
       });
     },
@@ -125,7 +134,7 @@ const store = new Vuex.Store({
     persist({ state }) {
       const settings = {};
       Object.assign(settings, state);
-      [ 'accGyrValues', 'magValues' ].forEach((item) => {
+      [ 'accGyrValues', 'magValues', 'normalizedMagValues', 'magRanges' ].forEach((item) => {
         delete settings[item];
       });
       const data = JSON.stringify(settings, null, '\t');

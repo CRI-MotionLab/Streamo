@@ -77,8 +77,16 @@
     },
     methods: {
       updateHostIP(value, index) {
-        const ip = this.$store.state.oscConfig.hostIP.split('.');
-        ip[index] = value;
+        const ip = this.$store.state.oscConfig.hostIP;
+        let ipa = [ 0, 0, 0, 0 ];
+
+        if (ip !== null && ip !== undefined) {
+          ipa = ip.split('.');
+
+          if (ipa.length > index) {
+            ipa[index] = value;
+          }
+        }
         // ip.forEach((item) => { 
         //   if (item < 0 || item > 255) {
         //     this.validHostIp = 'invalid';
@@ -88,7 +96,7 @@
 
         // this.validHostIp = '';
         this.$store.dispatch('updateOscConfig', {
-          hostIP: `${ip.join('.')}`
+          hostIP: `${ipa.join('.')}`
         });
       }
     },
