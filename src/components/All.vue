@@ -87,6 +87,25 @@ https://keithclark.co.uk/articles/creating-3d-worlds-with-html-and-css/
     return ring;    
   }
 
+  function createSatellite(rx, ry, rz, x, y, z, color) { // color should be 'red', 'blue' or 'yellow'
+    var sat = document.createElement('div');
+    sat.className = 'threedee satellite';
+    sat.style.cssText = `
+      background: url('./assets/satellite-${color}.png');
+      background-size: 50px;
+      width: 50px;
+      height: 50px;
+      margin-top: -25px;
+      margin-left: -25px;
+      transform-style: preserve-3d;
+      transform:
+      rotateX(${rx.toFixed(2)}rad) rotateY(${ry.toFixed(2)}rad) rotateY(${rz.toFixed(2)}rad)
+      translateX(${x.toFixed(2)}px) translateY(${y.toFixed(2)}px) translateZ(${z.toFixed(2)}px);
+    `;
+
+    return sat;
+  }
+
   export default {
     name: 'all',
     data() {
@@ -102,14 +121,36 @@ https://keithclark.co.uk/articles/creating-3d-worlds-with-html-and-css/
 
       const side = 100;
       const halfSide = side * 0.5;
-      const cube = document.querySelector('#planet-cube');
+      const all = document.querySelector('#planet-cube');
+      const cube = document.createElement('div');
+      cube.className = 'threedee';
+      cube.style.cssText = `
+        transform-style: preserve-3d;
+      `;
       cube.appendChild(createFace(side, side, 0, 0, halfSide, 0, 0, 0, lightYellow)); // front
       cube.appendChild(createFace(side, side, 0, 0, -halfSide, 0, 0, Math.PI, lightYellow)); // back
       cube.appendChild(createFace(side, side, -halfSide, 0, 0, 0, -Math.PI / 2, 0, lightBlue)); // left
       cube.appendChild(createFace(side, side, halfSide, 0, 0, 0, Math.PI / 2, 0, lightBlue)); // right
       cube.appendChild(createFace(side, side, 0, -halfSide, 0, Math.PI / 2, 0, 0, lightRed)); // bottom
       cube.appendChild(createFace(side, side, 0, halfSide, 0, -Math.PI / 2, 0, 0, lightRed)); // top
-      cube.appendChild(createRing());
+
+      const ring = createRing();
+      cube.appendChild(ring);
+      all.appendChild(cube);
+
+      const radius = 200;
+      const satellites = document.createElement('div');
+      satellites.className = 'threedee';
+      satellites.style.cssText = `
+        transform-style: preserve-3d;
+      `;
+      satellites.appendChild(createSatellite(0, 0, 0, -radius, 0, 0, 'yellow'));
+      satellites.appendChild(createSatellite(0, 0, 0, radius, 0, 0, 'yellow'));
+      satellites.appendChild(createSatellite(0, 0, 0, 0, -radius, 0, 'blue'));
+      satellites.appendChild(createSatellite(0, 0, 0, 0, radius, 0, 'blue'));
+      satellites.appendChild(createSatellite(0, 0, 0, 0, 0, -radius, 'red'));
+      satellites.appendChild(createSatellite(0, 0, 0, 0, 0, radius, 'red'));
+      all.appendChild(satellites);
 
       this.intervalId = setInterval(() => {
         const values = this.$store.state.accGyrValues;
@@ -136,6 +177,17 @@ https://keithclark.co.uk/articles/creating-3d-worlds-with-html-and-css/
           rotateX(${(filtered[3] * 0.1).toFixed(2)}deg)
           rotateY(${(filtered[4] * 0.1).toFixed(2)}deg)
           rotateZ(${(filtered[5] * 0.1).toFixed(2)}deg)
+        `;
+
+        // ring.style.transform = ``;
+
+        satellites.style.transform = `
+          rotateX(${(filtered[3] * -0.1).toFixed(2)}deg)
+          rotateY(${(filtered[4] * -0.1).toFixed(2)}deg)
+          rotateZ(${(filtered[5] * -0.1).toFixed(2)}deg)
+          translateX(${(filtered[0] * -10).toFixed(2)}px)
+          translateY(${(filtered[1] * 20).toFixed(2)}px)
+          translateZ(${(filtered[2] * -10 - 100).toFixed(2)}px)
         `;
       }, 50);
     },

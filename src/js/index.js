@@ -33,6 +33,9 @@ const main = new Vue({
       // quick n' dirty way to make OSC plugin accessible to other components
       // needs to be reinstanciated when input port has to change (see above)
       window.osc = new OSC();
+      // let's do this now
+      // https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-screen-orientation/
+      window.screen.orientation.lock('portrait-primary');
 
       // load settings from persistent file or create defaut if !exists (see store.js)
       store.dispatch('retrieve').then(() => {

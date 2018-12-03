@@ -35,8 +35,8 @@ const settingsFilename = 'streamo-settings.json';
 const store = new Vuex.Store({
   state: {
     oscConfig: {
-      inputPort: 8000,
-      outputPort: 8001,
+      inputPort: 7401,
+      outputPort: 7400,
       hostIP: '192.168.0.12',
       deviceIdentifier: 'streamo',
     },
