@@ -5,6 +5,9 @@ node_modules/
 platforms/
 plugins/
 
+streamo.jks
+build.json
+
 assets/gearicon*.*
 !assets/gearicon.png
 
