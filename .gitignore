@@ -5,6 +5,8 @@ node_modules/
 platforms/
 plugins/
 
+publishing/
+
 streamo.jks
 build.json
 
