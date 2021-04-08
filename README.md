@@ -5,8 +5,15 @@
 more info on [www.movuino.com](http://www.movuino.com/)
 
 
-![](./resources/streamo-loader.png) | ![](./resources/streamo-page1.png)
+<p float="left">
+  <img src="./resources/streamo-loader.png" width="20%" />
+  <img src="./resources/streamo-page1.png" width="20%" /> 
+  <img src="./resources/streamo-page2.png" width="20%" />
+  <img src="./resources/streamo-page3.png" width="20%" />
+</p>
+
 <!--
+![](./resources/streamo-loader.png width=160) | ![](./resources/streamo-page1.png width=160)
 <img style="display:inline-block;" src="./resources/streamo-loader.png" width="160" />
 <img style="display:inline-block;"src="./resources/streamo-page1.png" width="160" />
 <img style="display:inline-block;" src="./resources/streamo-page2.png" width="160" />
