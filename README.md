@@ -24,7 +24,7 @@ more info on [www.movuino.com](http://www.movuino.com/)
 
 Streamo sends all its OSC frames on the port `7400`.
 
-A valid target IP address must be entered in the bottom page fields to allow OSC data sending.
+A valid target IP address must be entered in the bottom page fields to enable OSC data sending.
 Once this is done the play button becomes clickable, and allows to toggle the OSC data sending on and off.
 The target IP address is automatically saved across sessions.
 
@@ -35,9 +35,14 @@ When the play button is toggled on :
 * From the third page, `touchstart` and `touchmove` events are forwarded as OSC frames of the form :  
 `/touch <x> <y>`
 
+the `<accx> ... <magz>` values in the continuously streamed `/streamo ...` frame
+correspond to the phone's accelerometer, gyroscope and magnetometer 3D sensors, respectively.
+They are sent in the units displayed in the first page (m.s-2, rad.s-1, µT), except
+the magnetometer which values are normalized across its 3 dimensions, for compatibility reasons.
+
 ### Dev notes
 
-##### Project status
+#### Project status
 
 At the moment only the Android version is working as expected.
 
@@ -46,7 +51,7 @@ iOS issues :
 * some sensor units need to be converted and some axis exchanged
 * the `react-native-osc` library is not outputting data as expected (needs to be fixed).
 
-##### Environment setup
+#### Environment setup
 
 This version of Streamo is based on React Native.
 It is a bare React Native project, but relies on Expo libraries (`expo-gl` and `expo-three`) to allow using the `threejs` library in an OpenGL context.
@@ -71,7 +76,7 @@ This one was useful when changing package / display names in the project :
 
 * https://dev.to/karanpratapsingh/quick-guide-for-updating-package-name-in-react-native-3ei3
 
-##### SplashScreen
+#### SplashScreen
 
 The splash screen library used in this project is `react-native-splash-screen`
 Make sure to follow the instructions in the library's github README to make it work (already done in this project)
