@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="vertical"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
+  <!--
+  <RelativeLayout
+    android:id="@+id/header"
+    android:layout_alignParentTop="true"
+    android:background="@color/dark_blue"
+    android:layout_width="match_parent"
+    android:layout_height="120dp">
+    <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_centerHorizontal="true"
+      android:layout_centerVertical="true"
+      android:text="Streamo"/>
+  </RelativeLayout>
+  <RelativeLayout
+    android:id="@+id/footer"
+    android:layout_alignParentBottom="true"
+    android:background="@color/dark_blue"
+    android:layout_width="match_parent"
+    android:layout_height="120dp"/>
+  <RelativeLayout
+    android:layout_above="@id/footer"
+    android:layout_below="@id/header"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+  -->
+    <ImageView
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:src="@drawable/launch_screen"
+      android:scaleType="centerCrop" />
+    <!-- see https://stackoverflow.com/a/39287645/3810717 -->
+    <ProgressBar
+      android:id="@+id/indeterminateBar"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_centerHorizontal="true"
+      android:layout_centerVertical="true"
+      android:indeterminateTint="@color/blue"
+      android:indeterminateTintMode="src_in"/>
+  <!-- </RelativeLayout> -->
+</RelativeLayout>

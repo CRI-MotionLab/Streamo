@@ -2,32 +2,53 @@
 
 ### A mobile app emulating a Movuino WiFi device (with visualization)
 
-#### building the app
 
-If not already done :
-* install [Node.js](https://nodejs.org/en/download/)
-* install cordova globally by running `npm install -g cordova`
-* make sure you install all the tools required for building iOS and Android applications, following [these instructions](https://cordova.apache.org/docs/en/latest/guide/cli/#install-pre-requisites-for-building).
-
-Now you can `git clone` this repo, `cd` into it, then run `npm install`.  
-Once the dependencies are installed you can build the app using `cordova build <platform>`, then run it using `cordova run <platform>`.
-
-#### dependencies
-
-Streamo is a cordova application based on the [Vue.js](https://vuejs.org/) framework. It uses `babel`, `browserify` and `node-sass` to allow for a modern writing style. It relies on the cordova plugins `cordova-plugin-osc`, `cordova-plugin-magnetometer` and `cordova-plugin-file`.
 
 #### OSC
 
-Streamo only sends a single OSC frame with the following structure :  
+A valid IP address must be entered in the bottom page fields to allow the OSC data sending.
+Once it is done, the "play" button is not grayed out anymore and as soon as it is pressed the OSC data sending is enabled (and can be disabled and reenabled at any moment).
 
-```
-/streamo <deviceIdentifier> <accX> <accY> <accZ> <gyrX> <gyrY> <gyrZ> <magX> <magY> <magZ>
-```
+Streamo sends all its OSC frames on the port `7400`
 
-The OSC parameters can be set from the settings tab (small gear icon at the right top of the screen). The `<deviceIdentifier>` property can be changed there too. Every change in the settings is persisted, anytime.
+When the OSC data sending is enabled :
 
-#### notes
+* Streamo continuously sends a single OSC frame of the form : `/streamo streamo <accx> <accy> <accz> <gyrx> <gyry> <gyrz> <magx> <magy> <magz>`
+* When on the third app page (touch surface), `touchstart` and `touchmove` events are forwarded as OSC frames of the form : `/touch <x> <y>`
 
-At the moment :
-* vueify (which is the only way I found so far to transpile vue single-file-components) only supports babel 6, so no babel 7 yet.
-* this application has only been tested on Android, built on OSX using cordova v6.5.0 and cordova-android v6.3.0 (other configurations might work)
+#### Dev notes
+
+###### Project status
+
+At the moment only the Android version is working as expected.
+
+iOS issues :
+
+* some sensor units need to be converted and some axis exchanged
+* the `react-native-osc` library is not outputting data as expected (needs to be fixed).
+
+###### Environment setup
+
+This version of Streamo is based on React Native.
+It is a bare React Native project, but relies on Expo libraries (`expo-gl` and `expo-three`) to allow using the `threejs` library in an OpenGL context.
+Make sure to follow the React Native [environment setup guide](https://reactnative.dev/docs/environment-setup) if you want to build it yourself.  
+Also make sure to have the [side by side NDK installed](https://stackoverflow.com/a/61212237/3810717) for Android builds, you will need it to build OpenGL.
+As is the case with bare projects, it also relies on the `react-native-unimodules` library to allow using Expo libraries.
+When doing so, make sure to follow the [installation instructions](https://docs.expo.io/bare/installing-unimodules/) and not forget to remove the unimodule dependencies that are not required (already done in this project).
+
+TL;DR :
+
+- For Android, in `android/app/build.gradle` : addUnimodulesDependencies([exclude: ['dependency_to_exclude', ...]])
+- For iOS, in `ios/Podfile` : use_unimodules!(exclude: ['dependency_to_exclude', ...])
+
+Useful resources :
+
+* https://medium.com/@akinncar/how-to-develop-3d-games-with-react-native-using-three-js-d01b8132758
+* https://blog.expo.io/you-can-now-use-expo-apis-in-any-react-native-app-7c3a93041331
+* https://docs.expo.io/bare/installing-unimodules/
+
+###### SplashScreen
+
+The splash screen library used in this project is `react-native-splash-screen`
+Make sure to follow the instructions in the library's github README to make it work (already done in this project)
+To fix the white screen before splash screen issue, see [this issue](https://github.com/crazycodeboy/react-native-splash-screen/issues/338#issue-389809278), and in particular [this comment](https://github.com/crazycodeboy/react-native-splash-screen/issues/338#issuecomment-447251703) for Android
