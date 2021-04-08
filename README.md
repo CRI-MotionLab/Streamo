@@ -1,12 +1,13 @@
 # Streamo
 
-##### A mobile app emulating a Movuino WiFi device (with visualization)
+#### A mobile app emulating a Movuino WiFi device (with visualization)
 
 more info on [www.movuino.com](http://www.movuino.com/)
 
-<img src="./resources/streamo-page1.png" width="200" />
-<img src="./resources/streamo-page2.png" width="200" />
-<img src="./resources/streamo-page3.png" width="200" />
+<img src="./resources/streamo-loader.png" width="160" />
+<img src="./resources/streamo-page1.png" width="160" />
+<img src="./resources/streamo-page2.png" width="160" />
+<img src="./resources/streamo-page3.png" width="160" />
 
 ### OSC
 
@@ -53,6 +54,11 @@ Useful resources :
 * https://medium.com/@akinncar/how-to-develop-3d-games-with-react-native-using-three-js-d01b8132758
 * https://blog.expo.io/you-can-now-use-expo-apis-in-any-react-native-app-7c3a93041331
 * https://docs.expo.io/bare/installing-unimodules/
+
+This one was useful when changing package / display names in the project :
+(and also don't leave an old .babelrc file at the root of the project mess up your js builds)
+
+* https://dev.to/karanpratapsingh/quick-guide-for-updating-package-name-in-react-native-3ei3
 
 ##### SplashScreen
 
