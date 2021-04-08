@@ -1,24 +1,31 @@
 # Streamo
 
-### A mobile app emulating a Movuino WiFi device (with visualization)
+##### A mobile app emulating a Movuino WiFi device (with visualization)
 
+more info on [www.movuino.com](http://www.movuino.com/)
 
+<img src="./resources/streamo-page1.png" width="200" />
+<img src="./resources/streamo-page2.png" width="200" />
+<img src="./resources/streamo-page3.png" width="200" />
 
-#### OSC
+### OSC
 
-A valid IP address must be entered in the bottom page fields to allow the OSC data sending.
-Once it is done, the "play" button is not grayed out anymore and as soon as it is pressed the OSC data sending is enabled (and can be disabled and reenabled at any moment).
+Streamo sends all its OSC frames on the port `7400`.
 
-Streamo sends all its OSC frames on the port `7400`
+A valid target IP address must be entered in the bottom page fields to allow OSC data sending.
+Once this is done the play button becomes clickable, and allows to toggle the OSC data sending on and off.
+The target IP address is automatically saved across sessions.
 
-When the OSC data sending is enabled :
+When the play button is toggled on :
 
-* Streamo continuously sends a single OSC frame of the form : `/streamo streamo <accx> <accy> <accz> <gyrx> <gyry> <gyrz> <magx> <magy> <magz>`
-* When on the third app page (touch surface), `touchstart` and `touchmove` events are forwarded as OSC frames of the form : `/touch <x> <y>`
+* Streamo continuously sends a single OSC frame of the form :  
+`/streamo streamo <accx> <accy> <accz> <gyrx> <gyry> <gyrz> <magx> <magy> <magz>`
+* From the third page, `touchstart` and `touchmove` events are forwarded as OSC frames of the form :  
+`/touch <x> <y>`
 
-#### Dev notes
+### Dev notes
 
-###### Project status
+##### Project status
 
 At the moment only the Android version is working as expected.
 
@@ -27,7 +34,7 @@ iOS issues :
 * some sensor units need to be converted and some axis exchanged
 * the `react-native-osc` library is not outputting data as expected (needs to be fixed).
 
-###### Environment setup
+##### Environment setup
 
 This version of Streamo is based on React Native.
 It is a bare React Native project, but relies on Expo libraries (`expo-gl` and `expo-three`) to allow using the `threejs` library in an OpenGL context.
@@ -47,7 +54,7 @@ Useful resources :
 * https://blog.expo.io/you-can-now-use-expo-apis-in-any-react-native-app-7c3a93041331
 * https://docs.expo.io/bare/installing-unimodules/
 
-###### SplashScreen
+##### SplashScreen
 
 The splash screen library used in this project is `react-native-splash-screen`
 Make sure to follow the instructions in the library's github README to make it work (already done in this project)
