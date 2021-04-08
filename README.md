@@ -4,10 +4,10 @@
 
 more info on [www.movuino.com](http://www.movuino.com/)
 
-<img src="./resources/streamo-loader.png" width="160" />
-<img src="./resources/streamo-page1.png" width="160" />
-<img src="./resources/streamo-page2.png" width="160" />
-<img src="./resources/streamo-page3.png" width="160" />
+<img style="display:inline-block;" src="./resources/streamo-loader.png" width="160" />
+<img style="display:inline-block;"src="./resources/streamo-page1.png" width="160" />
+<img style="display:inline-block;" src="./resources/streamo-page2.png" width="160" />
+<img style="display:inline-block;" src="./resources/streamo-page3.png" width="160" />
 
 ### OSC
 
