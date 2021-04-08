@@ -1,17 +1,59 @@
-**/.DS_Store
-**/Thumbs.db
+# OSX
+#
+.DS_Store
 
+# Xcode
+#
+build/
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata
+*.xccheckout
+*.moved-aside
+DerivedData
+*.hmap
+*.ipa
+*.xcuserstate
+
+# Android/IntelliJ
+#
+build/
+.idea
+.gradle
+local.properties
+*.iml
+
+# node.js
+#
 node_modules/
-platforms/
-plugins/
+npm-debug.log
+yarn-error.log
 
-publishing/
+# BUCK
+buck-out/
+\.buckd/
+*.keystore
+!debug.keystore
 
-streamo.jks
-build.json
+# fastlane
+#
+# It is recommended to not store the screenshots in the git repo. Instead, use fastlane to re-generate the
+# screenshots whenever they are needed.
+# For more information about the recommended setup visit:
+# https://docs.fastlane.tools/best-practices/source-control/
 
-assets/gearicon*.*
-!assets/gearicon.png
+*/fastlane/report.xml
+*/fastlane/Preview.html
+*/fastlane/screenshots
 
-www/**
-!www/README.md
+# Bundle artifact
+*.jsbundle
+
+# CocoaPods
+/ios/Pods/
