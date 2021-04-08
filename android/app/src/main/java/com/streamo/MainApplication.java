@@ -1,8 +1,9 @@
-package com.streamo;
+package com.crimotionlab.streamo;
 
-import com.streamo.generated.BasePackageList;
+import com.crimotionlab.streamo.generated.BasePackageList;
 import android.app.Application;
 import android.content.Context;
+// import com.facebook.react.BuildConfig;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactInstanceManager;

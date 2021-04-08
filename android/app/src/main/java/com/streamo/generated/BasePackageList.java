@@ -1,4 +1,4 @@
-package com.streamo.generated;
+package com.crimotionlab.streamo.generated;
 
 import java.util.Arrays;
 import java.util.List;
