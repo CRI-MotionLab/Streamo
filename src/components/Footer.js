@@ -95,8 +95,7 @@ class Footer extends React.Component {
 
     return (
       <KeyboardAvoidingView
-        behavior="position"
-        /*
+        //*
         style={{
           position: 'relative',
           width: '100%',
@@ -104,14 +103,22 @@ class Footer extends React.Component {
           backgroundColor: colors.darkBlue,
           justifyContent: 'center',
         }}
-        */
+        //*/
+
+        /*
+        // this is needed instead of style for ios :
+        
+        behavior="position"
         contentContainerStyle={{
           position: 'relative',
           width: '100%',
           height: 80,
+          // bottom: 0,
           backgroundColor: colors.darkBlue,
           justifyContent: 'center',
-        }}>
+        }}
+        //*/
+        >
 
         {
           false &&
